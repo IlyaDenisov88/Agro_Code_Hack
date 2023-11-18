@@ -42,6 +42,26 @@ def hh_resume_online_parser():
             # добавляю работам описание
             descriptions = soup.find_all("div", {'data-qa': "resume-block-experience-description"})
 
+            # достаю стаж в месяцах
+            exp_list = []
+            for item in clean_times:
+                integers = []
+                i = 0
+                while i < len(item):
+                    s_int = ''
+                    while i < len(item) and '0' <= item[i] <= '9':
+                        s_int += item[i]
+                        i += 1
+                    i += 1
+                    if s_int != '':
+                        integers.append(int(s_int))
+                    if len(integers) == 1:
+                        months = 12 * integers[0]
+                    elif len(integers) == 2:
+                        months = 12 * integers[0] + integers[1]
+                exp_list.append(months)
+            print(exp_list)
+
             clean_descriptions = []
             for item in descriptions:
                 item = item.text.replace('\xa0',' ')
@@ -51,28 +71,20 @@ def hh_resume_online_parser():
             
 
             for i in range(len(clean_jobs)):
-                job_info.append({'Job':clean_jobs[i], 'User_ID':user_id, 'Working_time':clean_times[i], 'Description':clean_descriptions[i]})
+                job_info.append({'Job':clean_jobs[i], 'User_ID':user_id, 'Working_time':exp_list[i], 'Description':clean_descriptions[i]})
                 if i >= len(clean_jobs)-1:
                     continue
                 # заполняем таблицу переходов
                 job_perechod_id += 1
-                job_perechod.append({'ID_transition': job_perechod_id, 'Prof_1':clean_jobs[i], 'Prof_2':clean_jobs[i+1], 'Time_transition':clean_times[i]})
+                job_perechod.append({'ID_transition': job_perechod_id, 'Prof_1':clean_jobs[i], 'Prof_2':clean_jobs[i+1], 'Time_transition':exp_list[i]})
 
 
-                with open("data_frame.csv", "a", encoding="utf-8", newline='') as file:
-                    writer = csv.writer(file)
-                    writer.writerow(
-                        (clean_jobs[i],
-                         user_id,
-                         clean_times[i],
-                         clean_descriptions[i]
-                        )
-                    )
     with open(f"data_frame.json", "a", encoding="utf-8") as file:
         json.dump(job_info, file, indent=4, ensure_ascii=False)
 
     with open(f"data_frame2.json", "a", encoding="utf-8") as file:
         json.dump(job_perechod, file, indent=4, ensure_ascii=False)
+
     
 
 
