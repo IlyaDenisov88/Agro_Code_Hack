@@ -16,6 +16,7 @@ def hh_resume_online_parser():
     job_info = []
     job_perechod_id = 0
     job_perechod = []
+    all_words_for_jobs = []
     for filename in os.listdir(directory):
         f = os.path.join(directory, filename)
         user_id += 1
@@ -76,14 +77,27 @@ def hh_resume_online_parser():
                     continue
                 # заполняем таблицу переходов
                 job_perechod_id += 1
-                job_perechod.append({'ID_transition': job_perechod_id, 'User_ID':user_id, 'Prof_1':clean_jobs[i+1], 'Prof_2':clean_jobs[i], 'Time_transition':exp_list[i]})
+                job_perechod.append({'ID_transition': job_perechod_id, 'User_ID':user_id, 'Prof_1':clean_jobs[i+1], 'Prof_2':clean_jobs[i], 'Time_transition':exp_list[i], 'Description_1':clean_descriptions[i+1]})
+            # формируем датафрейм со всеми словами
+
+            for item in clean_jobs:
+                one_word_jobs = item.split(' ')
+                dict = {}
+                for i in range(len(one_word_jobs)):
+                    dict[i] = one_word_jobs[i]
+                all_words_for_jobs.append(dict)
 
 
+
+    #with open(f"names_data.json", "a", encoding="utf-8") as file:
+    #   json.dump(all_words_for_jobs, file, indent=4, ensure_ascii=False)
     with open(f"data_frame.json", "a", encoding="utf-8") as file:
         json.dump(job_info, file, indent=4, ensure_ascii=False)
 
     with open(f"data_frame2.json", "a", encoding="utf-8") as file:
         json.dump(job_perechod, file, indent=4, ensure_ascii=False)
+
+
 # def create_error_list(job):
 #     error_list = []
 #     for i in range(len(job)):
