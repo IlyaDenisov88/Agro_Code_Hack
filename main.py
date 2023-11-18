@@ -36,8 +36,8 @@ def hh_resume_online_parser():
                 item = item.text.replace('\xa0',' ')
                 clean_times.append(item)
             clean_times.pop(-1)
-            #print(clean_jobs)
-            #print(clean_times)
+            print(clean_jobs)
+            print(clean_times)
 
             # добавляю работам описание
             descriptions = soup.find_all("div", {'data-qa': "resume-block-experience-description"})
@@ -76,7 +76,7 @@ def hh_resume_online_parser():
                     continue
                 # заполняем таблицу переходов
                 job_perechod_id += 1
-                job_perechod.append({'ID_transition': job_perechod_id, 'Prof_1':clean_jobs[i], 'Prof_2':clean_jobs[i+1], 'Time_transition':exp_list[i]})
+                job_perechod.append({'ID_transition': job_perechod_id, 'Prof_1':clean_jobs[i+1], 'Prof_2':clean_jobs[i], 'Time_transition':exp_list[i]})
 
 
     with open(f"data_frame.json", "a", encoding="utf-8") as file:
@@ -84,7 +84,12 @@ def hh_resume_online_parser():
 
     with open(f"data_frame2.json", "a", encoding="utf-8") as file:
         json.dump(job_perechod, file, indent=4, ensure_ascii=False)
-
+# def create_error_list(job):
+#     error_list = []
+#     for i in range(len(job)):
+#         error_list.append(job.replace(i, ))
+#     return error_list
+# print(create_error_list('математик'))
     
 
 
