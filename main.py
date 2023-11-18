@@ -76,7 +76,7 @@ def hh_resume_online_parser():
                     continue
                 # заполняем таблицу переходов
                 job_perechod_id += 1
-                job_perechod.append({'ID_transition': job_perechod_id, 'Prof_1':clean_jobs[i+1], 'Prof_2':clean_jobs[i], 'Time_transition':exp_list[i]})
+                job_perechod.append({'ID_transition': job_perechod_id, 'User_ID':user_id, 'Prof_1':clean_jobs[i+1], 'Prof_2':clean_jobs[i], 'Time_transition':exp_list[i]})
 
 
     with open(f"data_frame.json", "a", encoding="utf-8") as file:
