@@ -72,8 +72,7 @@ def hh_resume_online_parser():
         json.dump(job_info, file, indent=4, ensure_ascii=False)
 
     with open(f"data_frame2.json", "a", encoding="utf-8") as file:
-        for prof in range(len(clean_jobs)):
-            json.dump(job_perechod, file, indent=4, ensure_ascii=False)
+        json.dump(job_perechod, file, indent=4, ensure_ascii=False)
     
 
 
